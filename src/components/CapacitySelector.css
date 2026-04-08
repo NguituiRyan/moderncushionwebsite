@@ -1,0 +1,350 @@
+.cap-page {
+  min-height: 100vh;
+  background: var(--dark);
+  color: var(--text-on-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.cap-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--container-pad);
+  border-bottom: 1px solid var(--gold);
+  flex-shrink: 0;
+}
+
+.cap-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--text-muted-dark);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s;
+  min-width: 100px;
+}
+
+.cap-back-btn:hover {
+  color: white;
+}
+
+.cap-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cap-logo .logo-mark {
+  color: var(--text-muted-dark);
+  font-weight: 300;
+}
+
+.cap-logo .logo-bold {
+  color: white;
+}
+
+.cap-logo-divider {
+  color: var(--dark-border-strong);
+  font-weight: 300;
+  margin: 0 0.15rem;
+}
+
+.cap-logo-sub {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted-dark);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.cap-header-spacer {
+  min-width: 100px;
+}
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+.cap-intro {
+  text-align: center;
+  padding: 3rem var(--container-pad) 2rem;
+  flex-shrink: 0;
+}
+
+.cap-intro h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.1;
+}
+
+.cap-intro p {
+  font-size: 0.9rem;
+  color: var(--text-muted-dark);
+  letter-spacing: 0.02em;
+}
+
+.cap-intro p strong {
+  color: var(--text-secondary-dark);
+  font-weight: 500;
+}
+
+/* ============================================================
+   SPLIT PANELS
+   ============================================================ */
+.cap-split {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 72px - 140px);
+}
+
+.cap-panel {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 3.5rem;
+  background: var(--dark-surface);
+  border: 2px solid transparent;
+  transition: border-color 0.35s var(--ease-luxury), background 0.35s var(--ease-luxury);
+}
+
+.cap-panel + .cap-panel {
+  border-left: 1px solid var(--dark-border);
+}
+
+.cap-panel.is-hovered {
+  border-color: var(--gold);
+  background: var(--dark-surface-2);
+}
+
+/* Giant decorative background number */
+.cap-bg-number {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(18rem, 28vw, 32rem);
+  font-weight: 700;
+  color: rgba(201, 168, 76, 0.04);
+  line-height: 1;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.5s var(--ease-luxury);
+}
+
+.cap-panel.is-hovered .cap-bg-number {
+  color: rgba(201, 168, 76, 0.07);
+}
+
+/* ── Panel content ── */
+.cap-panel-content {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  width: 100%;
+}
+
+.cap-seats-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 1rem;
+}
+
+.cap-seats-icon {
+  color: var(--gold);
+}
+
+.cap-seats-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.cap-panel-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--red);
+  color: white;
+  padding: 3px 10px;
+  margin-bottom: 1.25rem;
+}
+
+.cap-panel-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: white;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 0.625rem;
+}
+
+.cap-panel-tagline {
+  font-size: 0.88rem;
+  color: var(--text-muted-dark);
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
+}
+
+/* Specs */
+.cap-specs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border-left: 2px solid var(--dark-border-strong);
+  padding-left: 1.25rem;
+}
+
+.cap-panel.is-hovered .cap-specs-list {
+  border-left-color: rgba(201, 168, 76, 0.35);
+}
+
+.cap-specs-list li {
+  font-size: 0.83rem;
+  color: var(--text-secondary-dark);
+  line-height: 1.4;
+}
+
+.cap-specs-list li::before {
+  content: '—';
+  color: var(--gold);
+  margin-right: 0.5rem;
+  font-weight: 700;
+}
+
+/* Price note */
+.cap-price-note {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+
+/* CTA button */
+.cap-cta-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--red);
+  border: 2px solid var(--red);
+  color: white;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s var(--ease-luxury), transform 0.3s var(--ease-luxury),
+              background 0.25s, box-shadow 0.25s;
+}
+
+.cap-panel.is-hovered .cap-cta-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cap-cta-btn:hover {
+  background: var(--red-hover);
+  border-color: var(--red-hover);
+  box-shadow: var(--shadow-glow-red);
+}
+
+/* Gold bottom line */
+.cap-panel-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-luxury);
+}
+
+.cap-panel.is-hovered .cap-panel-line {
+  transform: scaleX(1);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .cap-split {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .cap-panel {
+    padding: 3rem 2rem;
+    min-height: 50vh;
+  }
+
+  .cap-panel + .cap-panel {
+    border-left: none;
+    border-top: 1px solid var(--dark-border);
+  }
+
+  .cap-bg-number {
+    font-size: 14rem;
+    right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .cap-intro {
+    padding: 2rem var(--container-pad) 1.5rem;
+  }
+
+  .cap-panel {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .cap-panel-title {
+    font-size: 2.25rem;
+  }
+}

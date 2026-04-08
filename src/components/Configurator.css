@@ -1,0 +1,695 @@
+.configurator {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--dark);
+  overflow: hidden;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.cfg-header {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 72px;
+  background: var(--dark);
+  border-bottom: 1px solid var(--dark-border);
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.cfg-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding-right: 2.5rem;
+  border-right: 1px solid var(--dark-border);
+}
+
+.cfg-back-btn {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted-dark);
+  border-right: 1px solid var(--dark-border);
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+.cfg-back-btn:hover {
+  color: white;
+  background: var(--dark-surface-2);
+}
+
+.cfg-vehicle-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1.5rem;
+}
+
+.cfg-model {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.cfg-subtitle {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+  margin-top: 5px;
+}
+
+/* Step indicators */
+.cfg-steps {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  border-right: 1px solid var(--dark-border);
+}
+
+.cfg-step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+  border-right: 1px solid var(--dark-border);
+  gap: 3px;
+}
+
+.cfg-step-num {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.cfg-step-name {
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+  line-height: 1;
+}
+
+/* Price block */
+.cfg-price-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 2rem;
+  flex-shrink: 0;
+}
+
+.cfg-price-label {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+  line-height: 1;
+}
+
+.cfg-price-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   BODY
+   ============================================================ */
+.cfg-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Preview pane */
+.cfg-preview-pane {
+  flex: 1.3;
+  background: #0D0D0D;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--dark-border);
+}
+
+.cfg-iframe-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.cfg-iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.cfg-preview-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  padding: 0.875rem 1.5rem;
+  border-left: 2px solid var(--gold);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cfg-hint-title {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.cfg-hint-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted-dark);
+}
+
+/* ============================================================
+   OPTIONS PANE
+   ============================================================ */
+.cfg-options-pane {
+  width: 480px;
+  background: var(--dark-surface);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  flex-shrink: 0;
+}
+
+/* Section */
+.cfg-section {
+  padding: 2.5rem 2rem;
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.cfg-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.cfg-section-num {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+
+.cfg-section-title {
+  font-size: 1.375rem;
+  color: white;
+  letter-spacing: 0.05em;
+}
+
+/* Options list */
+.cfg-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Option card (seat types) ── */
+.cfg-option-card {
+  border: 1.5px solid var(--dark-border-strong);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  background: var(--dark-surface-2);
+}
+
+.cfg-option-card:hover {
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+.cfg-option-card.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.cfg-option-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.875rem;
+}
+
+.cfg-option-top h3 {
+  font-size: 1rem;
+  color: white;
+  letter-spacing: 0.04em;
+}
+
+.cfg-option-price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.cfg-feature-list {
+  padding-left: 1.25rem;
+  color: var(--text-muted-dark);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.cfg-feature-list li {
+  list-style: disc;
+}
+
+/* Selected badge */
+.cfg-selected-badge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 22px;
+  height: 22px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark);
+}
+
+.cfg-selected-badge--right {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ── Color cards ── */
+.cfg-color-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid var(--dark-border-strong);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  background: var(--dark-surface-2);
+}
+
+.cfg-color-card:hover {
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+.cfg-color-card.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.cfg-color-swatch {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.cfg-texture-swatch {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.08);
+}
+
+.cfg-color-card.is-selected .cfg-color-swatch,
+.cfg-color-card.is-selected .cfg-texture-swatch {
+  border-color: var(--gold);
+}
+
+.cfg-color-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cfg-color-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: white;
+  letter-spacing: 0.06em;
+}
+
+.cfg-color-price {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--text-muted-dark);
+  font-weight: 500;
+}
+
+/* ── Accessory cards ── */
+.cfg-acc-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1.5px solid var(--dark-border-strong);
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--dark-surface-2);
+}
+
+.cfg-acc-card:hover {
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+.cfg-acc-card.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.cfg-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--dark-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: var(--transition-fast);
+  color: var(--dark);
+}
+
+.cfg-checkbox.is-checked {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.cfg-acc-body {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.cfg-acc-thumb {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--dark-border);
+}
+
+.cfg-acc-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cfg-acc-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cfg-acc-category {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+}
+
+.cfg-acc-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: white;
+  letter-spacing: 0.04em;
+}
+
+.cfg-acc-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted-dark);
+  line-height: 1.5;
+}
+
+.cfg-acc-price {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   SUMMARY SECTION
+   ============================================================ */
+.cfg-summary-section {
+  background: var(--dark);
+}
+
+.cfg-summary-box {
+  background: var(--dark-surface-2);
+  border-top: 3px solid var(--gold);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cfg-summary-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--dark-border);
+  font-size: 0.85rem;
+}
+
+.cfg-summary-row:last-of-type {
+  border-bottom: none;
+}
+
+.cfg-summary-row > span:first-child {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+}
+
+.cfg-summary-row > span:nth-child(2) {
+  color: var(--text-secondary-dark);
+  font-size: 0.88rem;
+}
+
+.cfg-summary-price {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-align: right;
+}
+
+.cfg-summary-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cfg-mini-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--dark-border);
+  flex-shrink: 0;
+}
+
+.cfg-mini-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--dark-border);
+  flex-shrink: 0;
+}
+
+.cfg-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--dark-border-strong);
+}
+
+.cfg-summary-total > span:first-child {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary-dark);
+}
+
+.cfg-total-amount {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+/* Quote button */
+.cfg-quote-btn {
+  width: 100%;
+  background: var(--red);
+  color: white;
+  border: 2px solid var(--red);
+  padding: 1.125rem 2rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition);
+}
+
+.cfg-quote-btn:hover {
+  background: var(--red-hover);
+  border-color: var(--red-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-red);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1200px) {
+  .cfg-options-pane {
+    width: 420px;
+  }
+  .cfg-steps {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cfg-body {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .cfg-preview-pane {
+    flex: none;
+    height: 45vh;
+    border-right: none;
+    border-bottom: 1px solid var(--dark-border);
+  }
+  .cfg-options-pane {
+    width: 100%;
+    overflow-y: visible;
+  }
+}
+
+/* ── Seat type image thumbnail ── */
+.cfg-option-img {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+.cfg-option-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-luxury);
+}
+.cfg-option-card:hover .cfg-option-img img {
+  transform: scale(1.05);
+}
+
+/* ── Flooring cards ── */
+.cfg-floor-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid var(--dark-border-strong);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  background: var(--dark-surface-2);
+}
+
+.cfg-floor-card:hover {
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+.cfg-floor-card.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.cfg-floor-img {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.cfg-floor-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cfg-floor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.cfg-floor-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.cfg-floor-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
