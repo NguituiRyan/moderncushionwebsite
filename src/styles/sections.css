@@ -521,6 +521,50 @@
   right: 76px;
   text-align: right;
 }
+
+/* single caption slot replacing the tethered cards on phones */
+.craft__mcaps {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 10vh;
+  transform: translateX(-50%);
+  width: min(340px, 88vw);
+  height: 110px;
+  pointer-events: none;
+}
+.craft__mcap {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+}
+.craft__mcap-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 390;
+  color: var(--bone-2);
+}
+.craft__mcap-body {
+  margin-top: 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(239, 233, 223, 0.68);
+}
+@media (max-width: 759px) {
+  .craft__mcaps {
+    display: block;
+  }
+  .craft__callout-line,
+  .craft__callout-card {
+    display: none;
+  }
+  .craft__callout-dot {
+    width: 9px;
+    height: 9px;
+  }
+}
 .craft__callout-title {
   font-family: var(--font-display);
   font-size: clamp(1.05rem, 1.5vw, 1.35rem);

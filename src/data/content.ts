@@ -258,7 +258,7 @@ export const CHAPTERS: Chapter[] = [
   {
     num: '04',
     title: 'The details',
-    body: 'Armrests, three-point belts, a starlit roof if you want one. The difference between a van and a vehicle people talk about.',
+    body: 'Three-point belts on every captain, two-point lap belts on the bench, armrests, a starlit roof. The difference between a van and a vehicle people talk about.',
   },
   {
     num: '05',
@@ -275,7 +275,7 @@ export const STATS = [
 ]
 
 export interface Callout {
-  anchor: 'frame' | 'foam' | 'cover' | 'headrest'
+  anchor: 'frame' | 'foam' | 'cover' | 'headrest' | 'belt'
   side: 'left' | 'right'
   title: string
   body: string
@@ -305,6 +305,12 @@ export const CALLOUTS: Callout[] = [
     side: 'right',
     title: 'Details that finish it',
     body: 'Adjustable headrests, embossed marques, fold-down armrests — specified row by row.',
+  },
+  {
+    anchor: 'belt',
+    side: 'left',
+    title: 'Belts, anchored to spec',
+    body: 'Integrated three-point belts on captains and shuttles; NTSA-spec two-point lap belts on PSV rows — every anchor torque-tested.',
   },
 ]
 

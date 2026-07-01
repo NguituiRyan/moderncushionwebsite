@@ -7,7 +7,7 @@ import {
   matteMaterial,
   roundedBoxGeometry,
 } from './materials'
-import { buildSeat, type SeatBuild } from './seat'
+import { buildSeat, strapMesh, type SeatBuild } from './seat'
 
 export interface VanBuild {
   group: THREE.Group
@@ -22,6 +22,8 @@ export interface VanBuild {
   cabinLight: THREE.PointLight
   headlights: THREE.MeshStandardMaterial
   taillights: THREE.MeshStandardMaterial
+  /** shared webbing material for all 3-point and 2-point belts — faded in during chapter 4 */
+  beltMaterial: THREE.MeshStandardMaterial
 }
 
 const BODY_LEN = 4.7
@@ -90,7 +92,64 @@ export function buildVan(): VanBuild {
       group.add(pane)
     }
   }
-  sideWindow(1.3, 2.0, 1.18, 1.82) // front doors
+  // front door window is a raked trapezoid so it stays inside the A-pillar line
+  const rakedWindow = () => {
+    const quad = (pts: Array<[number, number]>, r: number) => {
+      const shape = new THREE.Shape()
+      const n = pts.length
+      for (let i = 0; i < n; i++) {
+        const prev = pts[(i + n - 1) % n]
+        const cur = pts[i]
+        const next = pts[(i + 1) % n]
+        const d1 = new THREE.Vector2(prev[0] - cur[0], prev[1] - cur[1]).normalize()
+        const d2 = new THREE.Vector2(next[0] - cur[0], next[1] - cur[1]).normalize()
+        const p1 = new THREE.Vector2(cur[0] + d1.x * r, cur[1] + d1.y * r)
+        const p2 = new THREE.Vector2(cur[0] + d2.x * r, cur[1] + d2.y * r)
+        if (i === 0) shape.moveTo(p1.x, p1.y)
+        else shape.lineTo(p1.x, p1.y)
+        shape.quadraticCurveTo(cur[0], cur[1], p2.x, p2.y)
+      }
+      shape.closePath()
+      return shape
+    }
+    const glassPts: Array<[number, number]> = [
+      [1.3, 1.18],
+      [1.96, 1.18],
+      [1.64, 1.82],
+      [1.3, 1.82],
+    ]
+    const framePts: Array<[number, number]> = [
+      [1.27, 1.15],
+      [2.0, 1.15],
+      [1.66, 1.85],
+      [1.27, 1.85],
+    ]
+    const glassGeo = new THREE.ExtrudeGeometry(quad(glassPts, 0.05), {
+      depth: 0.02,
+      bevelEnabled: true,
+      bevelThickness: 0.006,
+      bevelSize: 0.006,
+      bevelSegments: 2,
+      curveSegments: 6,
+    })
+    const frameGeo = new THREE.ExtrudeGeometry(quad(framePts, 0.05), {
+      depth: 0.02,
+      bevelEnabled: true,
+      bevelThickness: 0.006,
+      bevelSize: 0.006,
+      bevelSegments: 2,
+      curveSegments: 6,
+    })
+    for (const sz of [1, -1]) {
+      const frame = new THREE.Mesh(frameGeo, frameMat)
+      frame.position.set(0, 0, sz * (SIDE_Z - 0.002) - 0.01)
+      group.add(frame)
+      const pane = new THREE.Mesh(glassGeo, glass)
+      pane.position.set(0, 0, sz * (SIDE_Z + 0.008) - 0.01)
+      group.add(pane)
+    }
+  }
+  rakedWindow() // front doors
   sideWindow(0.3, 1.18, 1.18, 1.82) // sliding door
   sideWindow(-0.68, 0.18, 1.18, 1.82) // mid
   sideWindow(-1.62, -0.8, 1.18, 1.82) // rear quarter
@@ -303,12 +362,19 @@ export function buildVan(): VanBuild {
 
   /* --------------------------- furnishing: seats --------------------------- */
   const vipColors = { base: '#6e3412', accent: '#4f250c', stitch: '#d9a441' }
+  const beltMaterial = new THREE.MeshStandardMaterial({
+    color: 0x232322,
+    roughness: 0.72,
+    metalness: 0.05,
+    transparent: true,
+    opacity: 0,
+  })
   const seatRows: THREE.Group[] = []
   const rowX = [0.5, -0.4, -1.3]
   for (const rx of rowX) {
     const row = new THREE.Group()
     for (const sz of [0.36, -0.36]) {
-      const seat: SeatBuild = buildSeat('van', vipColors)
+      const seat: SeatBuild = buildSeat('van', vipColors, { beltMat: beltMaterial })
       seat.group.scale.setScalar(0.9)
       seat.group.rotation.y = Math.PI / 2
       seat.group.position.set(0, 0, sz)
@@ -357,6 +423,20 @@ export function buildVan(): VanBuild {
   const benchPlinth = new THREE.Mesh(roundedBoxGeometry(0.44, 0.3, 1.28, 0.03, 3), matteMaterial(0x26262a, 0.7))
   benchPlinth.position.set(0, 0.18, 0)
   bench.add(benchPlinth)
+  // NTSA-spec two-point lap belts, one per bench place
+  for (let i = 0; i < 3; i++) {
+    const zi = -0.45 + i * 0.45
+    const lap = strapMesh(
+      new THREE.Vector3(0.05, 0.535, zi - 0.165),
+      new THREE.Vector3(0.05, 0.535, zi + 0.165),
+      0.052,
+      beltMaterial,
+    )
+    bench.add(lap)
+    const buckle = new THREE.Mesh(roundedBoxGeometry(0.045, 0.032, 0.07, 0.012, 2), beltMaterial)
+    buckle.position.set(0.055, 0.54, zi + 0.19)
+    bench.add(buckle)
+  }
   bench.traverse((o) => {
     if (o instanceof THREE.Mesh) o.castShadow = true
   })
@@ -407,6 +487,7 @@ export function buildVan(): VanBuild {
     cabinLight,
     headlights: headMat,
     taillights: tailMat,
+    beltMaterial,
   }
 }
 

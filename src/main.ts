@@ -168,6 +168,19 @@ function renderCraftDom() {
     </div>`
   }).join('')
 
+  // on phones the tethered cards are replaced by one caption slot at the bottom
+  const mcapsWrap = document.createElement('div')
+  mcapsWrap.className = 'craft__mcaps'
+  mcapsWrap.setAttribute('aria-hidden', 'true')
+  mcapsWrap.innerHTML = CALLOUTS.map(
+    (c) => `
+    <div class="craft__mcap" data-anchor="${c.anchor}">
+      <p class="craft__mcap-title">${c.title}</p>
+      <p class="craft__mcap-body">${c.body}</p>
+    </div>`,
+  ).join('')
+  calloutsWrap.after(mcapsWrap)
+
   const swatches = $('#craft-swatches')
   swatches.innerHTML = FABRICS.map(
     (f, i) => `
@@ -413,7 +426,11 @@ async function boot() {
 
   const calloutDoms: CalloutDom[] = Array.from(
     document.querySelectorAll<HTMLElement>('.craft__callout'),
-  ).map((el) => ({ el, anchor: el.dataset.anchor as CalloutDom['anchor'] }))
+  ).map((el) => ({
+    el,
+    mobileEl: document.querySelector<HTMLElement>(`.craft__mcap[data-anchor="${el.dataset.anchor}"]`),
+    anchor: el.dataset.anchor as CalloutDom['anchor'],
+  }))
 
   const seatHandle = initSeatScene(
     $('#seat-canvas') as unknown as HTMLCanvasElement,
