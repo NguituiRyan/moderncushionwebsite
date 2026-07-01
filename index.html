@@ -2,99 +2,287 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Primary SEO -->
-    <meta name="description" content="Modern Cushions — Nairobi's premier luxury automotive seating and stadium upholstery. Custom van interiors, CAF-certified stadium seating, NTSA Approved Bodybuilder. 64 Old Enterprise Road, Industrial Area, Nairobi." />
-    <meta name="keywords" content="car upholstery Nairobi, automotive seats Kenya, PSV seats Nairobi, matatu interior, van conversion Kenya, stadium seating Kenya, leather seats Nairobi, SACCO seats, Hiace interior, Caravan seats" />
-    <meta name="author" content="Modern Cushions Ltd" />
-    <meta name="robots" content="index, follow" />
-    <title>Modern Cushions | Luxury Automotive &amp; Stadia Seating — Nairobi, Kenya</title>
-
-    <!-- Open Graph -->
+    <title>Modern Cushions — Van Interiors & Automotive Upholstery, Nairobi</title>
+    <meta
+      name="description"
+      content="Modern Cushions builds van interiors, VIP captain seats, PSV and fleet seating from its Industrial Area workshop in Nairobi. Frames welded in-house, foam poured on site, upholstery stitched to the millimetre."
+    />
+    <meta property="og:title" content="Modern Cushions — Van Interiors, Nairobi" />
+    <meta property="og:description" content="Watch an empty van become a finished cabin. VIP captain seats, PSV fleets, stadium dugouts — built at 64 Old Enterprise Road, Nairobi." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Modern Cushions" />
-    <meta property="og:title" content="Modern Cushions | Luxury Automotive &amp; Stadia Seating — Nairobi" />
-    <meta property="og:description" content="Nairobi's premier luxury automotive seating and stadium upholstery. Custom van interiors, CAF-certified, NTSA-compliant. Enterprise Road, Industrial Area." />
-    <meta property="og:image" content="/modern cushions/20240424_155624.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://moderncushions.co.ke" />
-    <meta property="og:locale" content="en_KE" />
-
-    <!-- Twitter / X Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Modern Cushions | Luxury Automotive &amp; Stadia Seating" />
-    <meta name="twitter:description" content="Custom van interiors, stadium seating &amp; bespoke upholstery. Enterprise Road, Nairobi. CAF-certified · NTSA-compliant." />
-    <meta name="twitter:image" content="/modern cushions/20240424_155624.jpg" />
-    <meta name="twitter:site" content="@moderncushions" />
-
-    <!-- LocalBusiness Structured Data -->
+    <meta property="og:image" content="/assets/photos/gallery-interior-captain.jpg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#efeae2" />
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Modern Cushions",
-      "alternateName": "Modern Cushions Ltd",
-      "description": "Nairobi's premier luxury automotive seating and stadium upholstery specialists. Custom PSV interiors, VIP van builds, stadium seating, and bespoke upholstery.",
-      "url": "https://moderncushions.co.ke",
-      "telephone": ["+254736564564", "+254784564564", "+254780564564"],
-      "email": "info@moderncushions.co.ke",
-      "foundingDate": "2015",
-      "currenciesAccepted": "KES",
-      "paymentAccepted": "M-Pesa, Bank Transfer, LPO, Cash",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "64 Old Enterprise Road, Industrial Area",
-        "addressLocality": "Nairobi",
-        "addressRegion": "Nairobi County",
-        "postalCode": "00100",
-        "addressCountry": "KE"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -1.3005,
-        "longitude": 36.8419
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-          "opens": "08:00",
-          "closes": "17:30"
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Modern Cushions",
+        "description": "Van interiors, VIP captain seats, PSV and fleet seating — welded, foamed and upholstered in-house in Nairobi.",
+        "telephone": "+254736564564",
+        "email": "info@moderncushions.co.ke",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "64 Old Enterprise Road, Industrial Area",
+          "addressLocality": "Nairobi",
+          "addressCountry": "KE"
         },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "09:00",
-          "closes": "14:00"
-        }
-      ],
-      "areaServed": {
-        "@type": "City",
-        "name": "Nairobi"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Upholstery Services",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automotive PSV Seating" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VIP Van Interior Conversion" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stadium Seating" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bespoke Upholstery" } }
-        ]
+        "openingHours": "Mo-Sa 07:30-18:00",
+        "priceRange": "KES 120,000 – KES 450,000"
       }
-    }
     </script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <div class="preloader__mark">
+          <svg viewBox="0 0 48 48" width="44" height="44" fill="none" aria-hidden="true">
+            <rect x="6" y="14" width="36" height="22" rx="11" stroke="currentColor" stroke-width="2.5" />
+            <path d="M6 25h36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4" />
+            <circle cx="24" cy="25" r="2.2" fill="currentColor" />
+          </svg>
+        </div>
+        <div class="preloader__word">Modern&nbsp;Cushions</div>
+        <div class="preloader__count"><span id="preloader-count">00</span></div>
+        <div class="preloader__bar"><span id="preloader-bar"></span></div>
+        <div class="preloader__hint">Rolling the van in…</div>
+      </div>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursor-label"></span></div>
+
+    <header class="nav" id="site-nav">
+      <a class="nav__brand" href="#top" data-cursor>
+        <svg viewBox="0 0 48 48" width="26" height="26" fill="none" aria-hidden="true">
+          <rect x="6" y="14" width="36" height="22" rx="11" stroke="currentColor" stroke-width="2.5" />
+          <path d="M6 25h36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4" />
+          <circle cx="24" cy="25" r="2.2" fill="currentColor" />
+        </svg>
+        <span>Modern&nbsp;Cushions</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#journey" data-cursor>The build</a>
+        <a href="#craft" data-cursor>The seat</a>
+        <a href="#collection" data-cursor>Collection</a>
+        <a href="#work" data-cursor>Work</a>
+        <a href="#process" data-cursor>Process</a>
+        <a href="#contact" data-cursor>Contact</a>
+      </nav>
+      <a class="btn btn--ink nav__cta" id="nav-quote" href="#" target="_blank" rel="noopener" data-cursor="Chat">
+        <span class="btn__dot" aria-hidden="true"></span>Get a quote
+      </a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav aria-label="Mobile">
+        <a href="#journey">The build</a>
+        <a href="#craft">The seat</a>
+        <a href="#collection">Collection</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="mobile-menu__meta">
+        <span>64 Old Enterprise Road, Industrial Area, Nairobi</span>
+        <a id="mobile-quote" href="#" target="_blank" rel="noopener">WhatsApp us →</a>
+      </div>
+    </div>
+
+    <main id="top">
+      <!-- Fixed WebGL stage for hero + journey -->
+      <canvas class="van-canvas" id="van-canvas" aria-hidden="true"></canvas>
+
+      <section class="hero" id="hero">
+        <div class="hero__frame">
+          <p class="hero__kicker" data-reveal>
+            <span class="hero__pin" aria-hidden="true"></span>Industrial Area, Nairobi — automotive upholstery
+          </p>
+          <h1 class="hero__title">
+            <span class="hero__line"><span>An empty van</span></span>
+            <span class="hero__line"><span>is a <em>promise.</em></span></span>
+          </h1>
+          <p class="hero__sub" data-reveal>
+            We build the interiors that keep it — VIP captain seats, PSV fleets and
+            full van conversions, welded, poured and stitched under one roof.
+          </p>
+          <div class="hero__actions" data-reveal>
+            <a class="btn btn--ink" href="#journey" data-cursor>Watch the build</a>
+            <a class="btn btn--ghost" id="hero-quote" href="#" target="_blank" rel="noopener" data-cursor="Chat">Talk to the workshop</a>
+          </div>
+        </div>
+        <div class="hero__edge" aria-hidden="true">
+          <span class="hero__scroll">Scroll<i></i></span>
+          <span class="hero__coord">01°18′S · 36°51′E</span>
+        </div>
+      </section>
+
+      <section class="journey" id="journey" aria-label="How a van is furnished">
+        <div class="journey__track" id="journey-track">
+          <div class="journey__stage">
+            <header class="journey__head">
+              <p class="section-kicker">The build</p>
+              <h2 class="journey__headline" aria-hidden="true">
+                <span>Empty in.</span><span><em>Finished</em> out.</span>
+              </h2>
+            </header>
+            <div class="journey__rail" id="journey-rail" aria-hidden="true">
+              <span class="journey__rail-line"><i id="journey-rail-fill"></i></span>
+            </div>
+            <div class="journey__chapters" id="journey-chapters"></div>
+            <div class="journey__counter" aria-hidden="true">
+              <span id="journey-counter-num">01</span><span class="journey__counter-total">/ 05</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__row" id="marquee-row"></div>
+      </div>
+
+      <section class="craft" id="craft" aria-label="Anatomy of a seat">
+        <div class="craft__track" id="craft-track">
+          <div class="craft__stage">
+            <canvas class="craft__canvas" id="seat-canvas" aria-hidden="true"></canvas>
+            <header class="craft__head">
+              <p class="section-kicker section-kicker--light">The seat</p>
+              <h2 class="craft__headline">
+                <span>Anatomy of a</span>
+                <span><em>Modern</em> seat.</span>
+              </h2>
+              <p class="craft__sub">
+                One VIP captain chair, taken apart. Everything below the leather is
+                ours too — frame, springs, foam — built in the same workshop.
+              </p>
+            </header>
+            <div class="craft__callouts" id="craft-callouts"></div>
+            <div class="craft__fabrics" id="craft-fabrics">
+              <p class="craft__fabrics-label">Finish</p>
+              <div class="craft__swatches" id="craft-swatches" role="group" aria-label="Choose a fabric"></div>
+              <p class="craft__fabric-name" id="craft-fabric-name">Charcoal — full-grain, matte finish</p>
+            </div>
+            <div class="craft__phase" id="craft-phase" aria-hidden="true">
+              <span data-phase="0">The chair</span>
+              <span data-phase="1">Exploded</span>
+              <span data-phase="2">Rebuilt</span>
+              <span data-phase="3">Your finish</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="collection" id="collection">
+        <header class="section-head">
+          <p class="section-kicker" data-reveal>The collection</p>
+          <h2 class="section-title" data-reveal-lines>
+            Eight seats.<br />Every road in Kenya.
+          </h2>
+          <p class="section-sub" data-reveal>
+            From matatu workhorses to full-grain VIP captains — each one framed,
+            foamed and finished in-house. Prices are per row, fitted.
+          </p>
+        </header>
+        <div class="collection__rail-wrap">
+          <div class="collection__rail" id="collection-rail"></div>
+        </div>
+        <div class="collection__hint" aria-hidden="true"><span>Drag</span> or scroll sideways</div>
+      </section>
+
+      <section class="work" id="work">
+        <header class="section-head">
+          <p class="section-kicker" data-reveal>Recent work</p>
+          <h2 class="section-title" data-reveal-lines>
+            From matatu fleets<br />to <em>stadium dugouts.</em>
+          </h2>
+        </header>
+        <div class="work__grid" id="work-grid"></div>
+      </section>
+
+      <section class="stats" id="stats">
+        <div class="stats__row" id="stats-row"></div>
+      </section>
+
+      <section class="process" id="process">
+        <header class="section-head">
+          <p class="section-kicker" data-reveal>How it works</p>
+          <h2 class="section-title" data-reveal-lines>
+            Four steps.<br />No surprises.
+          </h2>
+        </header>
+        <ol class="process__list" id="process-list"></ol>
+      </section>
+
+      <section class="voices" id="voices">
+        <header class="section-head">
+          <p class="section-kicker" data-reveal>Word of mouth</p>
+          <h2 class="section-title" data-reveal-lines>
+            Clients ask who<br />did the interior.
+          </h2>
+        </header>
+        <div class="voices__list" id="voices-list"></div>
+      </section>
+
+      <section class="faq" id="faq">
+        <header class="section-head">
+          <p class="section-kicker" data-reveal>Questions</p>
+          <h2 class="section-title" data-reveal-lines>Before you ask.</h2>
+        </header>
+        <div class="faq__list" id="faq-list"></div>
+      </section>
+
+      <footer class="contact" id="contact">
+        <div class="contact__cta">
+          <p class="section-kicker section-kicker--light" data-reveal>Start a build</p>
+          <h2 class="contact__title" data-reveal-lines>
+            Bring us<br />your van.
+          </h2>
+          <p class="contact__sub" data-reveal>
+            Send a photo of your vehicle on WhatsApp and we'll reply with options,
+            materials and an itemised quote — usually the same day.
+          </p>
+          <div class="contact__actions" data-reveal>
+            <a class="btn btn--bone" id="contact-quote" href="#" target="_blank" rel="noopener" data-cursor="Chat">
+              <span class="btn__dot btn__dot--live" aria-hidden="true"></span>WhatsApp the workshop
+            </a>
+            <a class="btn btn--ghost-light" href="tel:+254736564564" data-cursor="Call">+254 736 564 564</a>
+          </div>
+        </div>
+        <div class="contact__grid">
+          <div>
+            <h3>Workshop</h3>
+            <p>64 Old Enterprise Road<br />Industrial Area, Nairobi</p>
+          </div>
+          <div>
+            <h3>Hours</h3>
+            <p>Monday – Saturday<br />7:30 AM – 6:00 PM</p>
+          </div>
+          <div>
+            <h3>Call</h3>
+            <p id="contact-phones"></p>
+          </div>
+          <div>
+            <h3>Write</h3>
+            <p><a href="mailto:info@moderncushions.co.ke" data-cursor>info@moderncushions.co.ke</a></p>
+          </div>
+        </div>
+        <div class="contact__wordmark" aria-hidden="true">
+          <span>Modern</span><span><em>Cushions</em></span>
+        </div>
+        <div class="contact__legal">
+          <span>© <span id="footer-year"></span> Modern Cushions Ltd — Nairobi, Kenya</span>
+          <span>NTSA LN 23 compliant builds · 12-month workmanship warranty</span>
+        </div>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
