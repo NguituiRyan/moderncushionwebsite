@@ -9,7 +9,9 @@ gsap.registerPlugin(ScrollTrigger)
 
 export interface CalloutDom {
   el: HTMLElement
-  anchor: 'frame' | 'foam' | 'cover' | 'headrest'
+  /** compact caption shown instead of the tethered card on narrow screens */
+  mobileEl: HTMLElement | null
+  anchor: 'frame' | 'foam' | 'cover' | 'headrest' | 'belt'
 }
 
 export interface CraftDom {
@@ -102,13 +104,17 @@ export function initSeatScene(canvas: HTMLCanvasElement, dom: CraftDom, reducedM
     mov(seat.coverSeat, 0, 0.46, 0.1),
     mov(seat.foamBack, 0, 0.26, -0.08),
     mov(seat.foamSeat, 0, 0.24, 0.04),
+    mov(seat.belt, 0.04, 0.32, 0.34),
     mov(seat.armL, -0.44, 0.08, 0),
     mov(seat.armR, 0.44, 0.08, 0),
     mov(seat.base, 0, -0.16, 0),
   ]
 
   /* -------------------------------- timeline -------------------------------- */
-  for (const c of dom.callouts) gsap.set(c.el, { autoAlpha: 0 })
+  for (const c of dom.callouts) {
+    gsap.set(c.el, { autoAlpha: 0 })
+    if (c.mobileEl) gsap.set(c.mobileEl, { autoAlpha: 0 })
+  }
   gsap.set(dom.fabricsEl, { autoAlpha: 0 })
 
   const tl = gsap.timeline({
@@ -139,10 +145,16 @@ export function initSeatScene(canvas: HTMLCanvasElement, dom: CraftDom, reducedM
   movables.forEach((mv, i) => {
     tl.to(mv.obj.position, { x: mv.out.x, y: mv.out.y, z: mv.out.z, duration: 9, ease: 'power2.inOut' }, 22 + i * 0.5)
   })
-  const calloutTimes = [30, 33, 36, 39]
+  const calloutTimes = [29, 32, 35, 38, 41]
   dom.callouts.forEach((c, i) => {
-    tl.to(c.el, { autoAlpha: 1, duration: 2, ease: 'power2.out' }, calloutTimes[i] ?? 30)
-    tl.to(c.el, { autoAlpha: 0, duration: 2, ease: 'power2.in' }, 45)
+    const at = calloutTimes[i] ?? 29
+    tl.to(c.el, { autoAlpha: 1, duration: 2, ease: 'power2.out' }, at)
+    tl.to(c.el, { autoAlpha: 0, duration: 2, ease: 'power2.in' }, 45.5)
+    if (c.mobileEl) {
+      // captions swap in one fixed slot on phones, so each fades before the next lands
+      tl.to(c.mobileEl, { autoAlpha: 1, duration: 1.4, ease: 'power2.out' }, at)
+      tl.to(c.mobileEl, { autoAlpha: 0, duration: 1.2, ease: 'power2.in' }, i < dom.callouts.length - 1 ? at + 2.6 : 45.5)
+    }
   })
 
   // phase 2 · 48-72 — reassemble
@@ -199,7 +211,7 @@ export function initSeatScene(canvas: HTMLCanvasElement, dom: CraftDom, reducedM
     if (w === 0 || h === 0) return
     renderer.setSize(w, h, false)
     camera.aspect = w / h
-    camera.fov = w < 760 ? 38 : 30
+    camera.fov = w < 760 ? 42 : 30
     camera.updateProjectionMatrix()
   }
   resize()

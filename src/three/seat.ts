@@ -15,6 +15,7 @@ export interface SeatBuild {
   cover: THREE.Group
   headrest: THREE.Group
   armrests: THREE.Group
+  belt: THREE.Group
   /* explode-level subparts */
   foamSeat: THREE.Object3D
   foamBack: THREE.Object3D
@@ -28,6 +29,21 @@ export interface SeatBuild {
   stitchMats: THREE.Material[]
 }
 
+export interface SeatOpts {
+  /** shared webbing material — when provided, a 3-point belt is fitted (van seats) */
+  beltMat?: THREE.Material
+}
+
+/** Thin webbing strap stretched between two points. */
+export function strapMesh(a: THREE.Vector3, b: THREE.Vector3, width: number, mat: THREE.Material): THREE.Mesh {
+  const len = a.distanceTo(b)
+  const geo = new THREE.BoxGeometry(width, len, 0.011)
+  const mesh = new THREE.Mesh(geo, mat)
+  mesh.position.copy(a).add(b).multiplyScalar(0.5)
+  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize())
+  return mesh
+}
+
 const BACK_TILT = -0.16 // radians, leaning backwards
 
 /**
@@ -35,7 +51,7 @@ const BACK_TILT = -0.16 // radians, leaning backwards
  * `detail: 'hero'` includes frame/springs/piping for the exploded showcase;
  * `detail: 'van'` is the lighter version used inside the van cabin.
  */
-export function buildSeat(detail: 'hero' | 'van', colors: SeatColors): SeatBuild {
+export function buildSeat(detail: 'hero' | 'van', colors: SeatColors, opts: SeatOpts = {}): SeatBuild {
   const group = new THREE.Group()
 
   const leather = leatherMaterial(new THREE.Color(colors.base as string))
@@ -233,6 +249,50 @@ export function buildSeat(detail: 'hero' | 'van', colors: SeatColors): SeatBuild
   }
   group.add(armrests)
 
+  /* ---------------------------- three-point belt ---------------------------- */
+  // integrated belt: retractor on the left shoulder, webbing across to a
+  // buckle at the right hip, lap strap over the cushion
+  const belt = new THREE.Group()
+  const wantsBelt = detail === 'hero' || opts.beltMat
+  if (wantsBelt) {
+    const webbing =
+      opts.beltMat ??
+      new THREE.MeshStandardMaterial({ color: 0x232322, roughness: 0.72, metalness: 0.05 })
+    const retractor = new THREE.Mesh(roundedBoxGeometry(0.07, 0.13, 0.055, 0.02, 2), webbing)
+    retractor.position.set(-0.26, 1.0, -0.19)
+    belt.add(retractor)
+    const shoulder = strapMesh(
+      new THREE.Vector3(-0.24, 1.02, -0.12),
+      new THREE.Vector3(0.22, 0.545, 0.155),
+      0.052,
+      webbing,
+    )
+    belt.add(shoulder)
+    const lap = strapMesh(
+      new THREE.Vector3(-0.24, 0.548, 0.15),
+      new THREE.Vector3(0.24, 0.548, 0.16),
+      0.052,
+      webbing,
+    )
+    belt.add(lap)
+    const buckle = new THREE.Mesh(roundedBoxGeometry(0.05, 0.09, 0.035, 0.012, 2), webbing)
+    buckle.position.set(0.25, 0.535, 0.17)
+    belt.add(buckle)
+    if (detail === 'hero') {
+      const release = new THREE.Mesh(
+        new THREE.SphereGeometry(0.013, 8, 8),
+        new THREE.MeshStandardMaterial({ color: 0xb3261e, roughness: 0.4 }),
+      )
+      release.position.set(0.25, 0.568, 0.185)
+      belt.add(release)
+      const guide = new THREE.Mesh(roundedBoxGeometry(0.06, 0.035, 0.03, 0.012, 2), webbing)
+      guide.position.set(-0.245, 1.06, -0.135)
+      belt.add(guide)
+      anchor(belt, 'belt', 0.27, 0.53, 0.18)
+    }
+    group.add(belt)
+  }
+
   return {
     group,
     base,
@@ -241,6 +301,7 @@ export function buildSeat(detail: 'hero' | 'van', colors: SeatColors): SeatBuild
     cover,
     headrest,
     armrests,
+    belt,
     foamSeat,
     foamBack,
     coverSeat: seatCushion,

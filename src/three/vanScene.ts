@@ -205,7 +205,8 @@ export function initVanScene(canvas: HTMLCanvasElement, dom: JourneyDom, reduced
   tl.to(van.bench.position, { z: van.bench.userData.homeZ, duration: 3.6, ease: 'power3.out' }, 50)
   chapterIn(chapterEls[2], 33, 20)
 
-  // -- segment 4 · 56-74 : starlit roof + warm light
+  // -- segment 4 · 56-74 : belts on, starlit roof + warm light
+  tl.to(van.beltMaterial, { opacity: 1, duration: 5.5, ease: 'power2.out' }, 57.5)
   tl.set(van.stars, { visible: true }, 57)
   tl.to(van.starsMaterial, { opacity: 0.95, duration: 5, ease: 'power1.in' }, 57)
   tl.to(van.cabinLight, { intensity: 4.2, duration: 6, ease: 'power2.in' }, 58)
@@ -251,6 +252,24 @@ export function initVanScene(canvas: HTMLCanvasElement, dom: JourneyDom, reduced
   window.addEventListener('scroll', () => updateActive(), { passive: true })
 
   let introDone = false
+  /* ----------------------- narrow-screen framing ---------------------------
+   * Chapter camera targets pan the van left to clear the desktop chapter
+   * cards. On phones the cards sit at the bottom instead, so we re-centre the
+   * van every frame with a view offset scaled to the current camera distance,
+   * and zoom out so the full length fits the narrow frame. */
+  const applyMobileFraming = () => {
+    const w = window.innerWidth
+    const h = window.innerHeight
+    if (w >= 760) {
+      if (camera.view) camera.clearViewOffset()
+      return
+    }
+    const dist = camera.position.distanceTo(camTarget)
+    const heightM = (2 * dist * Math.tan((camera.fov * Math.PI) / 360)) / camera.zoom
+    const pxPerM = h / heightM
+    camera.setViewOffset(w, h, -camTarget.x * pxPerM * 0.9, h * 0.1, w, h)
+  }
+
   gsap.ticker.add((_t, dt) => {
     if (!active) return
     idleT += dt / 1000
@@ -260,6 +279,7 @@ export function initVanScene(canvas: HTMLCanvasElement, dom: JourneyDom, reduced
       camera.position.y += Math.sin(idleT * 0.55) * 0.0009 * amp
       camera.position.x += Math.cos(idleT * 0.4) * 0.0006 * amp
     }
+    applyMobileFraming()
     camera.lookAt(camTarget)
     renderer.render(scene, camera)
   })
@@ -270,12 +290,10 @@ export function initVanScene(canvas: HTMLCanvasElement, dom: JourneyDom, reduced
     const h = window.innerHeight
     renderer.setSize(w, h, false)
     camera.aspect = w / h
-    // keep the van framed on narrow screens, and lift it toward the top half
-    // so the hero copy owns the lower half
-    camera.fov = w < 760 ? 52 : w < 1100 ? 37 : 32
-    if (w < 760) camera.setViewOffset(w, h, 0, h * 0.11, w, h)
-    else camera.clearViewOffset()
+    camera.fov = w < 760 ? 50 : w < 1100 ? 37 : 32
+    camera.zoom = w < 760 ? 0.74 : 1
     camera.updateProjectionMatrix()
+    applyMobileFraming()
   }
   resize()
   window.addEventListener('resize', resize)
