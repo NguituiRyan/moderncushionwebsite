@@ -16,7 +16,6 @@ export interface Seat {
   id: string
   name: string
   tag: string
-  price: number
   image: string
   blurb: string
   features: string[]
@@ -27,7 +26,6 @@ export const SEATS: Seat[] = [
     id: 'vip-captain',
     name: 'Luxury VIP Captain',
     tag: 'VIP',
-    price: 450_000,
     image: 'seat-vip-captain',
     blurb: 'The flagship. Full-grain leather over memory foam, built for Grand Cabin conversions and executive shuttles.',
     features: ['Full-grain leather', 'Memory foam core', 'Recliner mechanism', 'Adjustable headrest & armrests'],
@@ -36,7 +34,6 @@ export const SEATS: Seat[] = [
     id: 'executive',
     name: 'Executive Business',
     tag: 'Executive',
-    price: 380_000,
     image: 'seat-executive',
     blurb: 'Quilted upholstery and built-in lumbar support for corporate fleets that carry decision-makers.',
     features: ['Quilted upholstery', 'High-density foam', 'Fold-down armrest', 'Built-in lumbar support'],
@@ -45,7 +42,6 @@ export const SEATS: Seat[] = [
     id: 'sport',
     name: 'Recaro-Style Sport',
     tag: 'Sport',
-    price: 320_000,
     image: 'seat-sport',
     blurb: 'Deep bolsters and a racing profile — with embossed headrests if you want your marque on every row.',
     features: ['Perforated bolsters', 'Deep side contouring', 'Embossed headrests', 'Breathable inserts'],
@@ -54,7 +50,6 @@ export const SEATS: Seat[] = [
     id: 'rugged',
     name: '4×4 Rugged',
     tag: 'Overland',
-    price: 360_000,
     image: 'seat-rugged',
     blurb: 'Water-resistant, steel-reinforced seating for safari trucks, escort vehicles and hard country.',
     features: ['Water-resistant cover', 'Steel-reinforced frame', 'Enhanced bolstering', 'Easy-clean surface'],
@@ -63,7 +58,6 @@ export const SEATS: Seat[] = [
     id: 'psv',
     name: 'Commercial PSV',
     tag: 'PSV',
-    price: 195_000,
     image: 'seat-psv',
     blurb: 'The workhorse. NTSA LN 23 compliant frames and foam that survives a decade of route work.',
     features: ['NTSA LN 23 compliant', 'High-density foam', 'Quick-strip servicing', 'Easy-clean surface'],
@@ -72,16 +66,14 @@ export const SEATS: Seat[] = [
     id: 'sacco',
     name: 'SACCO Fleet',
     tag: 'Fleet',
-    price: 175_000,
     image: 'seat-sacco',
-    blurb: 'Anti-vandal covers on heavy-gauge frames, priced for whole-fleet rollouts with custom livery.',
+    blurb: 'Anti-vandal covers on heavy-gauge frames, built for whole-fleet rollouts with custom livery.',
     features: ['Anti-vandal vinyl', 'Heavy-gauge frame', 'Row configurations', 'Custom livery colours'],
   },
   {
     id: 'shuttle',
     name: 'Tour & Shuttle',
     tag: 'Shuttle',
-    price: 280_000,
     image: 'seat-shuttle',
     blurb: 'Neck-roll headrests and armrests each side — comfort tuned for airport runs and safari transfers.',
     features: ['Neck-roll headrest', 'Armrests each side', 'Three-point belts', 'Footrest compatible'],
@@ -90,7 +82,6 @@ export const SEATS: Seat[] = [
     id: 'bench',
     name: 'Flat Bench',
     tag: 'Utility',
-    price: 120_000,
     image: 'seat-bench',
     blurb: 'Full-width rows with folding backrests — the honest option for utility and cargo-dual builds.',
     features: ['Full-width row', 'Folding backrest', 'Lightweight removal', 'Cargo-dual friendly'],

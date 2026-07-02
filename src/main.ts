@@ -32,8 +32,6 @@ const $ = <T extends HTMLElement = HTMLElement>(sel: string): T => {
   return el
 }
 
-const fmtKES = (n: number) => `KES ${n.toLocaleString('en-KE')}`
-
 /* ------------------------------------------------------------------------- */
 /*  Static DOM hydration                                                      */
 /* ------------------------------------------------------------------------- */
@@ -71,7 +69,7 @@ function renderMarquee() {
 function renderCollection() {
   const rail = $('#collection-rail')
   rail.innerHTML = SEATS.map((s) => {
-    const msg = waLink(`Hello! I'm interested in the ${s.name} seat (${fmtKES(s.price)}). My vehicle is a `)
+    const msg = waLink(`Hello! I'm interested in the ${s.name} seat. My vehicle is a `)
     return `
     <article class="seat-card" data-card>
       <div class="seat-card__media">
@@ -80,10 +78,9 @@ function renderCollection() {
       </div>
       <div class="seat-card__body">
         <h3 class="seat-card__name">${s.name}</h3>
-        <p class="seat-card__price"><strong>${fmtKES(s.price)}</strong> per row, fitted</p>
         <p class="seat-card__blurb">${s.blurb}</p>
         <ul class="seat-card__features">${s.features.map((f) => `<li>${f}</li>`).join('')}</ul>
-        <a class="seat-card__cta" href="${msg}" target="_blank" rel="noopener" data-cursor="Quote">Quote this seat <span aria-hidden="true">→</span></a>
+        <a class="seat-card__cta" href="${msg}" target="_blank" rel="noopener" data-cursor="Quote">Enquire about this seat <span aria-hidden="true">→</span></a>
       </div>
     </article>`
   }).join('')

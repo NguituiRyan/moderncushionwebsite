@@ -37,7 +37,7 @@ export function initVanScene(canvas: HTMLCanvasElement, dom: JourneyDom, reduced
   scene.fog = new THREE.Fog(BG, 16, 30)
 
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 60)
-  const camTarget = new THREE.Vector3(-1.85, 0.84, 0)
+  const camTarget = new THREE.Vector3(-2.6, 0.82, 0)
   const HERO_CAM = { x: 6.8, y: 2.35, z: 9.2 }
   camera.position.set(HERO_CAM.x, HERO_CAM.y, HERO_CAM.z)
 
