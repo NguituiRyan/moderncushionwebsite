@@ -41,7 +41,8 @@ export function buildVan(): VanBuild {
   const paint = paintMaterial(PALETTE.paint)
   cutMaterials.push(paint)
 
-  // H200 Hiace silhouette: stub hood, steep windshield, long high roof
+  // H200 Hiace silhouette: stub hood, steep windshield, low cab roof stepping
+  // up into the tall high-roof cabin — the commuter's signature profile
   const s = new THREE.Shape()
   s.moveTo(2.32, 0.34)
   s.lineTo(1.99, 0.34)
@@ -50,10 +51,12 @@ export function buildVan(): VanBuild {
   s.absarc(-1.45, 0.34, 0.42, 0, Math.PI, false)
   s.lineTo(-2.32, 0.34)
   s.quadraticCurveTo(-2.35, 0.36, -2.35, 0.6)
-  s.lineTo(-2.35, 1.8)
-  s.quadraticCurveTo(-2.35, 2.1, -2.02, 2.12)
-  s.lineTo(0.98, 2.12)
-  s.quadraticCurveTo(1.4, 2.09, 1.58, 1.98)
+  s.lineTo(-2.35, 1.86)
+  s.quadraticCurveTo(-2.35, 2.15, -2.04, 2.17)
+  s.lineTo(0.52, 2.17)
+  s.quadraticCurveTo(0.78, 2.16, 0.95, 2.07)
+  s.lineTo(1.2, 1.96)
+  s.quadraticCurveTo(1.42, 1.9, 1.54, 1.84)
   s.lineTo(2.02, 1.06)
   s.quadraticCurveTo(2.12, 1.0, 2.24, 0.98)
   s.lineTo(2.31, 0.97)
@@ -83,51 +86,28 @@ export function buildVan(): VanBuild {
 
   frameMat.transparent = true
   frameMat.opacity = 0.55
-  const sideWindow = (x0: number, x1: number, y0: number, y1: number) => {
-    for (const sz of [1, -1]) {
-      const w = x1 - x0
-      const h = y1 - y0
-      const frame = new THREE.Mesh(roundedBoxGeometry(w + 0.06, h + 0.06, 0.02, 0.05, 3), frameMat)
-      frame.position.set((x0 + x1) / 2, (y0 + y1) / 2, sz * (SIDE_Z - 0.002))
-      group.add(frame)
-      const pane = new THREE.Mesh(roundedBoxGeometry(w, h, 0.02, 0.045, 3), glass)
-      pane.position.set((x0 + x1) / 2, (y0 + y1) / 2, sz * (SIDE_Z + 0.008))
-      group.add(pane)
+
+  // arbitrary filleted polygon → extruded panel, mirrored to both sides
+  const filletShape = (pts: Array<[number, number]>, r: number) => {
+    const shape = new THREE.Shape()
+    const n = pts.length
+    for (let i = 0; i < n; i++) {
+      const prev = pts[(i + n - 1) % n]
+      const cur = pts[i]
+      const next = pts[(i + 1) % n]
+      const d1 = new THREE.Vector2(prev[0] - cur[0], prev[1] - cur[1]).normalize()
+      const d2 = new THREE.Vector2(next[0] - cur[0], next[1] - cur[1]).normalize()
+      const p1 = new THREE.Vector2(cur[0] + d1.x * r, cur[1] + d1.y * r)
+      const p2 = new THREE.Vector2(cur[0] + d2.x * r, cur[1] + d2.y * r)
+      if (i === 0) shape.moveTo(p1.x, p1.y)
+      else shape.lineTo(p1.x, p1.y)
+      shape.quadraticCurveTo(cur[0], cur[1], p2.x, p2.y)
     }
+    shape.closePath()
+    return shape
   }
-  // front door window is a raked trapezoid so it stays inside the A-pillar line
-  const rakedWindow = () => {
-    const quad = (pts: Array<[number, number]>, r: number) => {
-      const shape = new THREE.Shape()
-      const n = pts.length
-      for (let i = 0; i < n; i++) {
-        const prev = pts[(i + n - 1) % n]
-        const cur = pts[i]
-        const next = pts[(i + 1) % n]
-        const d1 = new THREE.Vector2(prev[0] - cur[0], prev[1] - cur[1]).normalize()
-        const d2 = new THREE.Vector2(next[0] - cur[0], next[1] - cur[1]).normalize()
-        const p1 = new THREE.Vector2(cur[0] + d1.x * r, cur[1] + d1.y * r)
-        const p2 = new THREE.Vector2(cur[0] + d2.x * r, cur[1] + d2.y * r)
-        if (i === 0) shape.moveTo(p1.x, p1.y)
-        else shape.lineTo(p1.x, p1.y)
-        shape.quadraticCurveTo(cur[0], cur[1], p2.x, p2.y)
-      }
-      shape.closePath()
-      return shape
-    }
-    const glassPts: Array<[number, number]> = [
-      [1.3, 1.18],
-      [1.9, 1.18],
-      [1.6, 1.82],
-      [1.3, 1.82],
-    ]
-    const framePts: Array<[number, number]> = [
-      [1.27, 1.15],
-      [1.94, 1.15],
-      [1.63, 1.85],
-      [1.27, 1.85],
-    ]
-    const glassGeo = new THREE.ExtrudeGeometry(quad(glassPts, 0.05), {
+  const panelGeo = (pts: Array<[number, number]>, r: number) =>
+    new THREE.ExtrudeGeometry(filletShape(pts, r), {
       depth: 0.02,
       bevelEnabled: true,
       bevelThickness: 0.006,
@@ -135,35 +115,96 @@ export function buildVan(): VanBuild {
       bevelSegments: 2,
       curveSegments: 6,
     })
-    const frameGeo = new THREE.ExtrudeGeometry(quad(framePts, 0.05), {
-      depth: 0.02,
-      bevelEnabled: true,
-      bevelThickness: 0.006,
-      bevelSize: 0.006,
-      bevelSegments: 2,
-      curveSegments: 6,
-    })
+  const bothSides = (geo: THREE.ExtrudeGeometry, mat: THREE.Material, offset: number) => {
     for (const sz of [1, -1]) {
-      const frame = new THREE.Mesh(frameGeo, frameMat)
-      frame.position.set(0, 0, sz * (SIDE_Z - 0.002) - 0.01)
-      group.add(frame)
-      const pane = new THREE.Mesh(glassGeo, glass)
-      pane.position.set(0, 0, sz * (SIDE_Z + 0.008) - 0.01)
-      group.add(pane)
+      const mesh = new THREE.Mesh(geo, mat)
+      mesh.position.set(0, 0, sz * offset - 0.01)
+      group.add(mesh)
     }
   }
-  rakedWindow() // front doors
-  sideWindow(0.3, 1.18, 1.18, 1.82) // sliding door
-  sideWindow(-0.68, 0.18, 1.18, 1.82) // mid
-  sideWindow(-1.62, -0.8, 1.18, 1.82) // rear quarter
-  const rearGlassPane = new THREE.Mesh(roundedBoxGeometry(1.34, 0.62, 0.02, 0.06, 3), glass)
+
+  // one continuous dark glasshouse band behind the rear glazing — reads like
+  // the Hiace's blacked-out window strip with slim hidden pillars
+  const bandMat = matteMaterial(0x1b1c1a, 0.5)
+  cutMaterials.push(bandMat)
+  for (const sz of [1, -1]) {
+    const band = new THREE.Mesh(roundedBoxGeometry(3.56, 0.66, 0.02, 0.06, 3), bandMat)
+    band.position.set(-0.49, 1.47, sz * (SIDE_Z - 0.002))
+    group.add(band)
+  }
+  const paneGeoCache = new Map<string, THREE.ExtrudeGeometry>()
+  const bandPane = (x0: number, x1: number) => {
+    const key = `${x0}:${x1}`
+    if (!paneGeoCache.has(key))
+      paneGeoCache.set(
+        key,
+        panelGeo(
+          [
+            [x0, 1.16],
+            [x1, 1.16],
+            [x1, 1.78],
+            [x0, 1.78],
+          ],
+          0.045,
+        ),
+      )
+    bothSides(paneGeoCache.get(key)!, glass, SIDE_Z + 0.008)
+  }
+  bandPane(0.3, 1.18) // sliding door
+  bandPane(-0.68, 0.18) // mid
+  bandPane(-1.62, -0.8) // rear quarter
+  bandPane(-2.22, -1.74) // rearmost
+
+  // front door glass: trapezoid tucked under the raked A-pillar,
+  // plus the H200's little triangular quarter light at the mirror base
+  const doorGlassGeo = panelGeo(
+    [
+      [1.34, 1.16],
+      [1.75, 1.16],
+      [1.75, 1.4],
+      [1.53, 1.78],
+      [1.34, 1.78],
+    ],
+    0.045,
+  )
+  const doorFrameGeo = panelGeo(
+    [
+      [1.31, 1.13],
+      [1.78, 1.13],
+      [1.78, 1.39],
+      [1.56, 1.81],
+      [1.31, 1.81],
+    ],
+    0.05,
+  )
+  const quarterGeo = panelGeo(
+    [
+      [1.8, 1.16],
+      [1.94, 1.16],
+      [1.8, 1.4],
+    ],
+    0.025,
+  )
+  const quarterFrameGeo = panelGeo(
+    [
+      [1.77, 1.13],
+      [1.975, 1.13],
+      [1.77, 1.46],
+    ],
+    0.03,
+  )
+  bothSides(doorFrameGeo, frameMat, SIDE_Z - 0.002)
+  bothSides(doorGlassGeo, glass, SIDE_Z + 0.008)
+  bothSides(quarterFrameGeo, frameMat, SIDE_Z - 0.002)
+  bothSides(quarterGeo, glass, SIDE_Z + 0.008)
+  const rearGlassPane = new THREE.Mesh(roundedBoxGeometry(1.34, 0.72, 0.02, 0.06, 3), glass)
   rearGlassPane.rotation.y = -Math.PI / 2
-  rearGlassPane.position.set(-2.445, 1.5, 0)
+  rearGlassPane.position.set(-2.445, 1.56, 0)
   group.add(rearGlassPane)
 
   // windshield — raked panel matching the profile line
   const rakeBottom = new THREE.Vector3(2.02, 1.1, 0)
-  const rakeTop = new THREE.Vector3(1.62, 1.95, 0)
+  const rakeTop = new THREE.Vector3(1.57, 1.82, 0)
   const rakeDir = rakeTop.clone().sub(rakeBottom).normalize()
   const across = new THREE.Vector3(0, 0, 1)
   const normal = new THREE.Vector3().crossVectors(rakeDir, across) // outward (+x-ish)
@@ -189,48 +230,59 @@ export function buildVan(): VanBuild {
   /* ----------------------------- trim & lights ---------------------------- */
   const darkTrim = matteMaterial(PALETTE.paintDark, 0.6)
   cutMaterials.push(darkTrim)
-  // deep Hiace-style front bumper: black apron tucked under the nose, centre intake
-  const frontBumper = new THREE.Mesh(roundedBoxGeometry(0.24, 0.4, 1.82, 0.05, 3), darkTrim)
-  frontBumper.position.set(2.34, 0.44, 0)
+  // two-tier Hiace bumper: black apron with plate recess and low intake slot
+  const frontBumper = new THREE.Mesh(roundedBoxGeometry(0.24, 0.42, 1.86, 0.06, 3), darkTrim)
+  frontBumper.position.set(2.34, 0.42, 0)
   group.add(frontBumper)
   const intakeMat = matteMaterial(0x141412, 0.9)
   cutMaterials.push(intakeMat)
-  const intake = new THREE.Mesh(roundedBoxGeometry(0.06, 0.13, 0.92, 0.04, 3), intakeMat)
-  intake.position.set(2.43, 0.37, 0)
+  const plate = new THREE.Mesh(roundedBoxGeometry(0.05, 0.15, 0.52, 0.03, 2), intakeMat)
+  plate.position.set(2.45, 0.5, 0)
+  group.add(plate)
+  const intake = new THREE.Mesh(roundedBoxGeometry(0.05, 0.09, 1.12, 0.04, 3), intakeMat)
+  intake.position.set(2.45, 0.28, 0)
   group.add(intake)
   const fogMat = matteMaterial(0x17181a, 0.4)
   cutMaterials.push(fogMat)
-  for (const sz of [-0.66, 0.66]) {
-    const fog = new THREE.Mesh(roundedBoxGeometry(0.05, 0.09, 0.17, 0.03, 2), fogMat)
-    fog.position.set(2.44, 0.5, sz)
+  for (const sz of [-0.72, 0.72]) {
+    const fog = new THREE.Mesh(roundedBoxGeometry(0.05, 0.1, 0.18, 0.035, 2), fogMat)
+    fog.position.set(2.43, 0.5, sz)
     group.add(fog)
   }
   const rearBumper = new THREE.Mesh(roundedBoxGeometry(0.16, 0.2, 1.78, 0.06, 3), darkTrim)
   rearBumper.position.set(-2.39, 0.44, 0)
   group.add(rearBumper)
 
-  // black grille band between the headlights, high on the stub nose
-  const grille = new THREE.Mesh(roundedBoxGeometry(0.06, 0.15, 0.86, 0.04, 3), darkTrim)
-  grille.position.set(2.43, 0.97, 0)
-  group.add(grille)
-  const grilleBar = new THREE.Mesh(roundedBoxGeometry(0.05, 0.024, 0.86, 0.012, 2), steelMaterial(PALETTE.chrome))
-  grilleBar.position.set(2.44, 1.0, 0)
-  group.add(grilleBar)
+  // slim chrome twin-slat grille in a shallow recess between the headlights
+  const grilleRecess = new THREE.Mesh(roundedBoxGeometry(0.05, 0.13, 0.74, 0.04, 3), matteMaterial(0xb2ac9f, 0.55))
+  grilleRecess.position.set(2.42, 0.96, 0)
+  group.add(grilleRecess)
+  const slatMat = steelMaterial(PALETTE.chrome)
+  cutMaterials.push(slatMat, grilleRecess.material as THREE.Material)
+  for (const gy of [0.93, 0.985]) {
+    const slat = new THREE.Mesh(roundedBoxGeometry(0.05, 0.02, 0.7, 0.01, 2), slatMat)
+    slat.position.set(2.44, gy, 0)
+    group.add(slat)
+  }
 
   const headMat = new THREE.MeshStandardMaterial({
-    color: 0xf4efe2,
-    roughness: 0.18,
-    metalness: 0.12,
+    color: 0xc9ced1,
+    roughness: 0.15,
+    metalness: 0.3,
     emissive: 0xfff3d6,
-    emissiveIntensity: 0.25,
+    emissiveIntensity: 0.12,
   })
-  cutMaterials.push(headMat)
-  // swept headlamps wrapping the nose corners
+  const lampTrimMat = matteMaterial(0xa8a297, 0.6)
+  cutMaterials.push(headMat, lampTrimMat)
+  // big swept headlamps wrapping the nose corners
   for (const sz of [-1, 1]) {
-    const lamp = new THREE.Mesh(roundedBoxGeometry(0.09, 0.15, 0.46, 0.05, 3), headMat)
-    lamp.position.set(2.44, 0.96, sz * 0.65)
-    lamp.rotation.y = sz * -0.14
-    lamp.rotation.z = sz * 0.04
+    const backing = new THREE.Mesh(roundedBoxGeometry(0.07, 0.19, 0.54, 0.05, 3), lampTrimMat)
+    backing.position.set(2.43, 0.95, sz * 0.64)
+    backing.rotation.y = sz * -0.12
+    group.add(backing)
+    const lamp = new THREE.Mesh(roundedBoxGeometry(0.09, 0.16, 0.5, 0.05, 3), headMat)
+    lamp.position.set(2.445, 0.95, sz * 0.64)
+    lamp.rotation.y = sz * -0.12
     group.add(lamp)
   }
   const tailMat = new THREE.MeshStandardMaterial({
@@ -242,8 +294,8 @@ export function buildVan(): VanBuild {
   })
   cutMaterials.push(tailMat)
   for (const sz of [-0.74, 0.74]) {
-    const lamp = new THREE.Mesh(roundedBoxGeometry(0.06, 0.44, 0.1, 0.035, 3), tailMat)
-    lamp.position.set(-2.44, 1.0, sz)
+    const lamp = new THREE.Mesh(roundedBoxGeometry(0.06, 0.52, 0.1, 0.035, 3), tailMat)
+    lamp.position.set(-2.44, 1.06, sz)
     group.add(lamp)
   }
 
@@ -278,8 +330,8 @@ export function buildVan(): VanBuild {
   const ventMat = matteMaterial(0x232527, 0.7)
   const capMat = steelMaterial(PALETTE.chrome)
   cutMaterials.push(tyreMat, hubMat, ventMat, capMat)
-  const tyreGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.24, 28)
-  const hubGeo = new THREE.CylinderGeometry(0.165, 0.165, 0.245, 24)
+  const tyreGeo = new THREE.CylinderGeometry(0.33, 0.33, 0.24, 28)
+  const hubGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.245, 24)
   const ventGeo = new THREE.CylinderGeometry(0.032, 0.032, 0.252, 10)
   const capGeo = new THREE.CylinderGeometry(0.055, 0.055, 0.256, 16)
   for (const wx of [1.57, -1.45]) {
@@ -297,7 +349,7 @@ export function buildVan(): VanBuild {
       }
       wheel.add(new THREE.Mesh(capGeo, capMat))
       wheel.rotation.x = Math.PI / 2
-      wheel.position.set(wx, 0.35, sz * 0.76)
+      wheel.position.set(wx, 0.33, sz * 0.76)
       group.add(wheel)
     }
   }
@@ -407,7 +459,7 @@ export function buildVan(): VanBuild {
   }
   for (const zz of [-0.5, -0.05]) {
     const strip = new THREE.Mesh(roundedBoxGeometry(3.1, 0.05, 0.42, 0.025, 3), panelMat)
-    strip.position.set(-0.65, 2.0, zz)
+    strip.position.set(-0.65, 2.06, zz)
     group.add(strip)
     wallPanels.push(strip)
   }
@@ -518,9 +570,9 @@ export function buildVan(): VanBuild {
     return seed / 2147483647
   }
   while (sIdx < starCount) {
-    const x = -2.1 + rand() * 2.9
+    const x = -2.1 + rand() * 2.8
     const z = -0.68 + rand() * rand() * 1.2
-    m.setPosition(x, 2.0 - rand() * 0.06, z)
+    m.setPosition(x, 2.07 - rand() * 0.06, z)
     stars.setMatrixAt(sIdx, m)
     sIdx++
   }
