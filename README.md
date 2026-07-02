@@ -49,7 +49,7 @@ node scripts/shoot-mobile.mjs
 ```
 index.html              page skeleton, all sections
 src/main.ts             boot: DOM hydration, preloader, interactions
-src/data/content.ts     ALL business content: seats + KES prices, FAQs,
+src/data/content.ts     ALL business content: seats, FAQs,
                         testimonials, contact, chapter copy
 src/three/van.ts        procedural van builder (+ furnishing parts)
 src/three/seat.ts       procedural captain seat builder (explodable)
