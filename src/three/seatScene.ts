@@ -145,15 +145,17 @@ export function initSeatScene(canvas: HTMLCanvasElement, dom: CraftDom, reducedM
   movables.forEach((mv, i) => {
     tl.to(mv.obj.position, { x: mv.out.x, y: mv.out.y, z: mv.out.z, duration: 9, ease: 'power2.inOut' }, 22 + i * 0.5)
   })
-  const calloutTimes = [29, 32, 35, 38, 41]
+  // staggered in AND out so at most two cards (on opposite sides or far apart)
+  // are ever on screen together — keeps text off the model
+  const calloutTimes = [29, 32.5, 36, 39.5, 43]
   dom.callouts.forEach((c, i) => {
     const at = calloutTimes[i] ?? 29
     tl.to(c.el, { autoAlpha: 1, duration: 2, ease: 'power2.out' }, at)
-    tl.to(c.el, { autoAlpha: 0, duration: 2, ease: 'power2.in' }, 45.5)
+    tl.to(c.el, { autoAlpha: 0, duration: 1.6, ease: 'power2.in' }, at + 5.4)
     if (c.mobileEl) {
       // captions swap in one fixed slot on phones, so each fades before the next lands
       tl.to(c.mobileEl, { autoAlpha: 1, duration: 1.4, ease: 'power2.out' }, at)
-      tl.to(c.mobileEl, { autoAlpha: 0, duration: 1.2, ease: 'power2.in' }, i < dom.callouts.length - 1 ? at + 2.6 : 45.5)
+      tl.to(c.mobileEl, { autoAlpha: 0, duration: 1.2, ease: 'power2.in' }, i < dom.callouts.length - 1 ? at + 2.8 : at + 5.4)
     }
   })
 

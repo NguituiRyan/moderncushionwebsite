@@ -488,7 +488,7 @@
 }
 .craft__callout-line {
   position: absolute;
-  left: -60px;
+  left: -120px;
   top: -60px;
   overflow: visible;
 }
@@ -510,15 +510,20 @@
 }
 .craft__callout-card {
   position: absolute;
-  left: 76px;
+  left: 106px;
   top: -26px;
   transform: translateY(-50%);
   width: max-content;
-  max-width: min(240px, 34vw);
+  max-width: min(240px, 30vw);
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(14, 11, 6, 0.66);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 .craft__callout--left .craft__callout-card {
   left: auto;
-  right: 76px;
+  right: 106px;
   text-align: right;
 }
 
