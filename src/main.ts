@@ -154,10 +154,10 @@ function renderCraftDom() {
   const calloutsWrap = $('#craft-callouts')
   calloutsWrap.innerHTML = CALLOUTS.map((c) => {
     const dir = c.side === 'right' ? 1 : -1
-    const path = `M0 0 L${22 * dir} -26 L${58 * dir} -26`
+    const path = `M0 0 L${26 * dir} -26 L${96 * dir} -26`
     return `
     <div class="craft__callout craft__callout--${c.side}" data-anchor="${c.anchor}">
-      <svg class="craft__callout-line" width="120" height="120" viewBox="-60 -60 120 120" aria-hidden="true">
+      <svg class="craft__callout-line" width="240" height="120" viewBox="-120 -60 240 120" aria-hidden="true">
         <path d="${path}" />
       </svg>
       <span class="craft__callout-dot"></span>

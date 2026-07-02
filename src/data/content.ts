@@ -308,7 +308,7 @@ export const CALLOUTS: Callout[] = [
   },
   {
     anchor: 'belt',
-    side: 'left',
+    side: 'right',
     title: 'Belts, anchored to spec',
     body: 'Integrated three-point belts on captains and shuttles; NTSA-spec two-point lap belts on PSV rows — every anchor torque-tested.',
   },
