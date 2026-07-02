@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 /** Shared colour story for both scenes. */
 export const PALETTE = {
-  paint: 0xcfc8b8, // champagne bone body paint
+  paint: 0xdcd7cb, // Hiace white, warmed to sit in the bone palette
   paintDark: 0x2a2723,
   glass: 0x272e31,
   rubber: 0x1b1c1d,
